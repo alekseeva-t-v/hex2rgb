@@ -29,9 +29,7 @@ function Converter() {
 
   let res = 'RGB(' + rgbArr[0] + ', ' + rgbArr[1] + ', ' + rgbArr[2] + ')';
 
-  const containerStyle = {
-    background: hexCode
-  }
+  const containerStyle = {background:  hexCode}
 
   return (
     <div className="container" style={containerStyle}>
