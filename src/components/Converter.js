@@ -1,35 +1,35 @@
 import React, { useState } from 'react';
 
+/**
+ * Компонент, отвечающий за отображение элемента выбора цвета
+ *
+ */
 function Converter() {
-  const [form, setForm] = useState({
-    hex: '#34495e',
-  });
+  const [hex, setHex] = useState('#34495e');
 
-  const handlerChange = (event) => {
-    const { name } = event.target;
-    setForm((prevForm) => {
-      return {
-        ...prevForm,
-        [name]: event.target.value,
-      };
-    });
+  /**
+   * Обновляет состояние при вводе данных в поле ввода
+   *
+   * @param {object} event Непосредственно, тот объект, с которым происходит взаимодействие (поле ввода).
+   */
+  const changeColorHandler = (event) => {
+    setHex(event.target.value);
   };
 
-  let hexCode = form.hex;
   let rgbArr = [];
+  let containerStyle = { background: '#34495e' }
 
-  if (hexCode.length === 7) {
-    if (/^#?[A-Fa-f0-9]{6}$/.test(hexCode)) {
-      hexCode = hexCode.split('#')[1];
+  if (hex.length === 7) {
+    if (/^#?[A-Fa-f0-9]{6}$/.test(hex)) {
+      const hexCode = hex.split('#')[1];
       for (let i = 0; i < hexCode.length; i += 2) {
         rgbArr.push(parseInt(hexCode[i] + hexCode[i + 1], 16));
       }
+      containerStyle = { background: hex };
     }
   }
 
   let res = 'RGB(' + rgbArr[0] + ', ' + rgbArr[1] + ', ' + rgbArr[2] + ')';
-
-  const containerStyle = {background:  hexCode}
 
   return (
     <div className="container" style={containerStyle}>
@@ -39,11 +39,15 @@ function Converter() {
           id="hex"
           name="hex"
           placeholder="#34495e"
-          onChange={handlerChange}
-          value={form.hex}
+          onChange={changeColorHandler}
+          value={hex}
         />
         <div className="rgb" id="rgb">
-        {(form.hex.length < 7) ? "Ожидаю ввода" : (/^#?[A-Fa-f0-9]{6}$/.test(hexCode)) ? res : "Ошибка!"}
+          {hex.length < 7
+            ? 'Ожидаю ввода'
+            : /^#?[A-Fa-f0-9]{6}$/.test(hex)
+            ? res
+            : 'Ошибка!'}
         </div>
       </div>
     </div>
